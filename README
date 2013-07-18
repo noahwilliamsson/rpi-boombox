@@ -1,0 +1,126 @@
+What?
+=====
+This is a simple jukebox application using libspotify.  It plays your "starred"
+playlist by default.  It's possible to switch playlist and change the currently
+playing track, but that's about it.
+
+The program may be remotely controlled over the network or, if running on a
+Raspberry Pi, via an external hardware button with a few extra components.
+
+
+License
+=======
+This application uses a few pieces from the libspotify distribution:
+audio.h, audio.c, openal-audio.c (slightly modified) which are MIT licensed.
+queue.h which is 3-clause BSD licensed.
+
+Everything else is licensed under a 2-clause BSD license.
+http://opensource.org/licenses/BSD-2-Clause
+
+
+Running
+=======
+You'll need a Spotify premium account in order to use this program.
+
+The first time you need to enter credentials on the command line:
+$ ./pi-boombox <username> <password>
+
+On subsequent runs it is sufficient to just run:
+$ ./pi-boombox
+
+By default it will start to play the first (oldest) track in your
+"starred" playlist.
+
+
+A lot of stuff is logged to syslog and the console (stderr) by
+default.  Feel free to reduce logging by updating the call to
+setlogmask() in main.c (around line 260).
+
+
+Building on Linux
+=================
+On Ubuntu or Raspbian, install necessary build tools using:
+$ sudo apt-get install build-essential libopenal-dev
+
+Install libspotify under /usr:
+$ curl -LO http://developer.spotify.com/download/libspotify/libspotify-12.1.103-Linux-armv6-bcm2708hardfp-release.tar.gz
+$ tar zxf libspotify-12.1.103-Linux-armv6-bcm2708hardfp-release.tar.gz
+$ cd libspotify-12.1.103-Linux-armv6-bcm2708hardfp-release
+$ sudo make install prefix=/usr
+
+Finally, run 'make' in the source folder:
+$ make
+
+
+Building on Mac OS X
+====================
+Make sure you've got Xcode installed
+
+Install libspotify.framework under /Library/Frameworks
+$ curl -LO http://developer.spotify.com/download/libspotify/libspotify-12.1.51-Darwin-universal.zip
+$ unzip libspotify-12.1.51-Darwin-universal.zip
+$ cd libspotify-12.1.51-Darwin-universal
+$ tar c libspotify.framework | sudo tar xv -C /Library/Frameworks
+
+Finally, run 'make' in the source folder:
+$ make
+
+(or open the Xcode project and build from there)
+
+
+TCP based control interface
+===========================
+The program listens for incoming TCP connections on port 1234 which allows
+for rudimentary remote control of the playback.
+
+The list of supported commands is as follows:
+  "next" (change to next track)
+  "stop" (stop playback)
+  "play" (restart playback)
+  "logout" (logout and shutdown the program)
+
+If a Spotify playlist URI is sent the program will set that playlist as
+the active playlist.  Issue a "next" command to start playing from it
+immediately.
+
+Here's an example with Netcat (nc):
+$ echo stop | nc 127.0.0.1 1234
+# OK, stopping playback
+
+$ echo play | nc 127.0.0.1 1234
+# OK, starting playback
+
+$ echo spotify:user:whatever:starred | nc 10.0.0.8 1234
+# OK, playlist is now the active playlist
+
+$ echo next | nc 127.0.0.1 1234
+# OK, playing next track
+
+
+To change the default listening port, edit net.h and update CTRL_TCP_PORT.
+NOTE: It listens on all available interfaces (IPv4 address 0.0.0.0).
+
+
+Raspberry Pi button to change tracks
+====================================
+On Raspberry Pi hardware a simple button may be connected to change tracks:
+
+P1-11 (GPIO17) --> [10k ohm resistor] --> P1-01 (3.3V)
+P1-11 (GPIO17) --> [BUTTON] --> [1k ohm resistor] --> P1-06 (GND)
+
+For more details on the P1 header on Raspberry Pi, see:
+http://elinux.org/RPi_Low-level_peripherals#General_Purpose_Input.2FOutput_.28GPIO.29
+
+If you would like to use a different GPIO connector, edit rpi-gpio.h.
+
+GPIO17 was selected because it's available on the same pin on both the rev.1
+and rev.2 hardware of the Raspberry Pi.
+
+
+Additionally, if you would like to power the Pi from a 4.8V battery, hook up
+the battery to P1-02 (5V) and P1-06 (GND).  A 4.8V battery pack may be
+constructed from four AA (R6) 1.2V NiMh batteries.  The model A draws half
+the power (around 1.5W with no connected USB devices) compared to the model B.
+
+The Pi seems to do fine with voltages in the USB +/- 5% range, i.e, 4.75-5.25V.
+Avoid using regular 1.5V AA batteries as they exceed the Pi's operating voltage.

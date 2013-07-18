@@ -1,0 +1,269 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CEA38BC2179820DE0028B56E /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA38BC1179820DE0028B56E /* OpenAL.framework */; };
+		CEA38BC4179821200028B56E /* libspotify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA38BC3179821200028B56E /* libspotify.framework */; };
+		CEA38BD51798218E0028B56E /* app.c in Sources */ = {isa = PBXBuildFile; fileRef = CEA38BC61798218E0028B56E /* app.c */; };
+		CEA38BD61798218E0028B56E /* audio.c in Sources */ = {isa = PBXBuildFile; fileRef = CEA38BC81798218E0028B56E /* audio.c */; };
+		CEA38BD71798218E0028B56E /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = CEA38BCA1798218E0028B56E /* main.c */; };
+		CEA38BD81798218E0028B56E /* net.c in Sources */ = {isa = PBXBuildFile; fileRef = CEA38BCB1798218E0028B56E /* net.c */; };
+		CEA38BD91798218E0028B56E /* openal-audio.c in Sources */ = {isa = PBXBuildFile; fileRef = CEA38BCD1798218E0028B56E /* openal-audio.c */; };
+		CEA38BDA1798218E0028B56E /* player.c in Sources */ = {isa = PBXBuildFile; fileRef = CEA38BCE1798218E0028B56E /* player.c */; };
+		CEA38BDB1798218E0028B56E /* playlist.c in Sources */ = {isa = PBXBuildFile; fileRef = CEA38BD01798218E0028B56E /* playlist.c */; };
+		CEA38BDC1798218E0028B56E /* rpi-gpio.c in Sources */ = {isa = PBXBuildFile; fileRef = CEA38BD31798218E0028B56E /* rpi-gpio.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CEA38BAD179820800028B56E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		CEA38BAF179820800028B56E /* pi-boombox */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "pi-boombox"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEA38BC1179820DE0028B56E /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/OpenAL.framework; sourceTree = DEVELOPER_DIR; };
+		CEA38BC3179821200028B56E /* libspotify.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libspotify.framework; path = ../../../Library/Frameworks/libspotify.framework; sourceTree = "<group>"; };
+		CEA38BC61798218E0028B56E /* app.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = app.c; sourceTree = "<group>"; };
+		CEA38BC71798218E0028B56E /* app.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = app.h; sourceTree = "<group>"; };
+		CEA38BC81798218E0028B56E /* audio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = audio.c; sourceTree = "<group>"; };
+		CEA38BC91798218E0028B56E /* audio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = audio.h; sourceTree = "<group>"; };
+		CEA38BCA1798218E0028B56E /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		CEA38BCB1798218E0028B56E /* net.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = net.c; sourceTree = "<group>"; };
+		CEA38BCC1798218E0028B56E /* net.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = net.h; sourceTree = "<group>"; };
+		CEA38BCD1798218E0028B56E /* openal-audio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "openal-audio.c"; sourceTree = "<group>"; };
+		CEA38BCE1798218E0028B56E /* player.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = player.c; sourceTree = "<group>"; };
+		CEA38BCF1798218E0028B56E /* player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = player.h; sourceTree = "<group>"; };
+		CEA38BD01798218E0028B56E /* playlist.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = playlist.c; sourceTree = "<group>"; };
+		CEA38BD11798218E0028B56E /* playlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = playlist.h; sourceTree = "<group>"; };
+		CEA38BD21798218E0028B56E /* queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = queue.h; sourceTree = "<group>"; };
+		CEA38BD31798218E0028B56E /* rpi-gpio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "rpi-gpio.c"; sourceTree = "<group>"; };
+		CEA38BD41798218E0028B56E /* rpi-gpio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "rpi-gpio.h"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CEA38BAC179820800028B56E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEA38BC4179821200028B56E /* libspotify.framework in Frameworks */,
+				CEA38BC2179820DE0028B56E /* OpenAL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CEA38B951798202E0028B56E = {
+			isa = PBXGroup;
+			children = (
+				CEA38BC5179821740028B56E /* pi-boombox */,
+				CEA38BC3179821200028B56E /* libspotify.framework */,
+				CEA38BC1179820DE0028B56E /* OpenAL.framework */,
+				CEA38BB0179820800028B56E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CEA38BB0179820800028B56E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CEA38BAF179820800028B56E /* pi-boombox */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CEA38BC5179821740028B56E /* pi-boombox */ = {
+			isa = PBXGroup;
+			children = (
+				CEA38BC61798218E0028B56E /* app.c */,
+				CEA38BC71798218E0028B56E /* app.h */,
+				CEA38BC81798218E0028B56E /* audio.c */,
+				CEA38BC91798218E0028B56E /* audio.h */,
+				CEA38BCA1798218E0028B56E /* main.c */,
+				CEA38BCB1798218E0028B56E /* net.c */,
+				CEA38BCC1798218E0028B56E /* net.h */,
+				CEA38BCD1798218E0028B56E /* openal-audio.c */,
+				CEA38BCE1798218E0028B56E /* player.c */,
+				CEA38BCF1798218E0028B56E /* player.h */,
+				CEA38BD01798218E0028B56E /* playlist.c */,
+				CEA38BD11798218E0028B56E /* playlist.h */,
+				CEA38BD21798218E0028B56E /* queue.h */,
+				CEA38BD31798218E0028B56E /* rpi-gpio.c */,
+				CEA38BD41798218E0028B56E /* rpi-gpio.h */,
+			);
+			name = "pi-boombox";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CEA38BAE179820800028B56E /* pi-boombox */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CEA38BB6179820800028B56E /* Build configuration list for PBXNativeTarget "pi-boombox" */;
+			buildPhases = (
+				CEA38BAB179820800028B56E /* Sources */,
+				CEA38BAC179820800028B56E /* Frameworks */,
+				CEA38BAD179820800028B56E /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "pi-boombox";
+			productName = "pi-boombox";
+			productReference = CEA38BAF179820800028B56E /* pi-boombox */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CEA38B961798202E0028B56E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+			};
+			buildConfigurationList = CEA38B991798202E0028B56E /* Build configuration list for PBXProject "pi-boombox" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = CEA38B951798202E0028B56E;
+			productRefGroup = CEA38BB0179820800028B56E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CEA38BAE179820800028B56E /* pi-boombox */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CEA38BAB179820800028B56E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEA38BD51798218E0028B56E /* app.c in Sources */,
+				CEA38BD61798218E0028B56E /* audio.c in Sources */,
+				CEA38BD71798218E0028B56E /* main.c in Sources */,
+				CEA38BD81798218E0028B56E /* net.c in Sources */,
+				CEA38BD91798218E0028B56E /* openal-audio.c in Sources */,
+				CEA38BDA1798218E0028B56E /* player.c in Sources */,
+				CEA38BDB1798218E0028B56E /* playlist.c in Sources */,
+				CEA38BDC1798218E0028B56E /* rpi-gpio.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		CEA38B9A1798202E0028B56E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
+			};
+			name = Debug;
+		};
+		CEA38B9B1798202E0028B56E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
+			};
+			name = Release;
+		};
+		CEA38BB7179820800028B56E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		CEA38BB8179820800028B56E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CEA38B991798202E0028B56E /* Build configuration list for PBXProject "pi-boombox" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEA38B9A1798202E0028B56E /* Debug */,
+				CEA38B9B1798202E0028B56E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CEA38BB6179820800028B56E /* Build configuration list for PBXNativeTarget "pi-boombox" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEA38BB7179820800028B56E /* Debug */,
+				CEA38BB8179820800028B56E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CEA38B961798202E0028B56E /* Project object */;
+}
