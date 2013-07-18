@@ -197,7 +197,11 @@ static void sess_callback_offline_status_updated(sp_session *session) {
 		sp_offline_num_playlists(session),
 		sp_offline_time_left(session) / 86400,
 		sp_offline_time_left(session) % 3600);
+}
 
+static void sess_callback_offline_error(sp_session *session, sp_error error) {
+
+	syslog(LOG_INFO, "Session: offline error is now: %s", sp_error_message(error));
 }
 
 int mainloop(sp_session *session, int listen_fd) {
@@ -252,7 +256,7 @@ int main(int argc, char **argv) {
 		.get_audio_buffer_stats	= &player_callback_get_audio_buffer_stats,
 		// libspotify 10
 		.offline_status_updated	= &sess_callback_offline_status_updated,
-		.offline_error		= NULL,
+		.offline_error		= &sess_callback_offline_error,
 		// libspotify 11
 		.credentials_blob_updated	= sess_callback_credentials_blob_updated,
 		// libspotify 12
