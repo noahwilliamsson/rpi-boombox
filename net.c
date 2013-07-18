@@ -86,20 +86,17 @@ int net_poll(int listen_fd, int timeout) {
 	}
 	else if(ret < 0 && errno != EINTR && errno != EAGAIN) {
 		syslog(LOG_ERR, "NET: poll() returned error: %s", strerror(errno));
-
 		return -1;
 	}
 
 	for(i = 0; i < nfds; i++) {
 		if(fdset[i].revents & POLLPRI) {
-			syslog(LOG_DEBUG, "NET: POLLPRI on fd %d", fdset[i].fd);
 			if(fdset[i].fd == app_gpio_fd()) {
 				lseek(fdset[i].fd, 0, SEEK_SET);
 				net_read_data(fdset[i].fd);
 			}
 		}
 		else if(fdset[i].revents & POLLIN) {
-			syslog(LOG_DEBUG, "NET: POLLIN on fd %d", fdset[i].fd);
 			if(fdset[i].fd == listen_fd)
 				ret = net_accept_client(fdset[i].fd);
 			else
@@ -156,7 +153,6 @@ static int net_read_data(int fd) {
 
 	memset(buf, 0, sizeof(buf));
 	n = read(fd, buf, sizeof(buf) - 1);
-	syslog(LOG_DEBUG, "NET: Received %zd bytes from fd %d: '%s'", n, fd, buf);
 	if(n <= 0)
 		return -1;
 
