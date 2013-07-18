@@ -43,6 +43,7 @@ void app_set_link(sp_link *link);
 void app_set_track(sp_track *track);
 sp_track *app_get_track(void);
 sp_playlist *app_set_active_playlist_link(sp_link *link);
+void app_randomize_playlist_order(void);
 sp_track *app_do_next_track(void);
 void app_release(void);
 void app_post_event(app_event_t event);

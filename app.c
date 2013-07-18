@@ -33,6 +33,7 @@ typedef struct {
 
 	/* Active playlist and track */
 	sp_playlist *active_playlist;
+	int *randomized_track_idx;
 	int playlist_track_idx;
 
 	/* Audio fifo buffer */
@@ -163,6 +164,11 @@ static sp_playlist *app_set_active_playlist(sp_playlist *pl) {
 
 		sp_playlist_release(g_app->active_playlist);
 		g_app->active_playlist = NULL;
+
+		if(g_app->randomized_track_idx) {
+			free(g_app->randomized_track_idx);
+			g_app->randomized_track_idx = NULL;
+		}
 	}
 
 	if(pl == NULL)
@@ -174,6 +180,7 @@ static sp_playlist *app_set_active_playlist(sp_playlist *pl) {
 
 	g_app->active_playlist = pl;
 	g_app->playlist_track_idx = 0;
+	app_randomize_playlist_order();
 	syslog(LOG_INFO, "App: Selected playlist '%s' with %d tracks (loaded: %d)",
 		app_playlist_is_special_kind(pl)?
 		"internal (inbox or starred)": sp_playlist_name(pl),
@@ -190,11 +197,42 @@ sp_playlist *app_set_active_playlist_link(sp_link *link) {
 	return app_set_active_playlist(pl);
 }
 
+void app_randomize_playlist_order(void) {
+	int *arr;
+	int i, r, t;
+	int num;
+
+	if(g_app->randomized_track_idx != NULL) {
+		free(g_app->randomized_track_idx);
+		g_app->randomized_track_idx = NULL;
+	}
+
+	num = sp_playlist_num_tracks(g_app->active_playlist);
+
+	arr = malloc(sizeof(int) * num);
+	if(arr == NULL)
+		return;
+
+	for(i = 0; i < num; i++)
+		arr[i] = i;
+
+	srand(time(NULL));
+	for(i = num - 1; i > 0; i--) {
+		r = rand() % i;
+
+		t = arr[i];
+		arr[i] = arr[r];
+		arr[r] = t;
+	}
+
+	g_app->randomized_track_idx = arr;
+}
+
 /* Advance to next track and start playing */
 sp_track *app_do_next_track(void) {
 	sp_track *track;
 	sp_playlist *pl;
-	int num_tracks;
+	int i, num_tracks;
 
 	pl = g_app->active_playlist;
 	if(pl == NULL) {
@@ -210,20 +248,16 @@ sp_track *app_do_next_track(void) {
 	}
 
 	track = app_get_track();
-	if(track != NULL) {
-
-		syslog(LOG_DEBUG,"App: A track is selected so advancing playlist_track_idx from %d to %d",
-			g_app->playlist_track_idx, g_app->playlist_track_idx+1);
-
+	if(track != NULL)
 		++g_app->playlist_track_idx;
-	}
 
 	g_app->playlist_track_idx %= num_tracks;
 
-	track = sp_playlist_track(pl, g_app->playlist_track_idx);
+	i = g_app->randomized_track_idx[g_app->playlist_track_idx];
+	track = sp_playlist_track(pl, i);
 	app_set_track(track);
-	syslog(LOG_NOTICE, "App: Selected next track (%d/%d) in playlist: %s",
-			g_app->playlist_track_idx + 1, num_tracks,
+	syslog(LOG_NOTICE, "App: Selected next track %d/%d (playlist pos: %d) in playlist: %s",
+			g_app->playlist_track_idx + 1, num_tracks, i + 1,
 			sp_track_name(track));
 
 	/* Trigger events to check if track can actually be played */
@@ -374,13 +408,15 @@ int app_process_events(void) {
 				sp_track *track;
 				sp_playlist *pl = g_app->active_playlist;
 				int num_tracks = sp_playlist_num_tracks(pl);
-				/* Attempt to prefetch next track */
-				track = sp_playlist_track(pl, (g_app->playlist_track_idx + 1) % num_tracks);
-				if(sp_track_error(track) == SP_ERROR_OK) {
-					sp_error error;
+				int i = g_app->randomized_track_idx[(g_app->playlist_track_idx + 1) % num_tracks];
 
-					error = sp_session_player_prefetch(g_app->session, track);
-					syslog(LOG_NOTICE, "App: Prefetching of track '%s' returned error: %s", sp_track_name(track), sp_error_message(error));
+				/* Attempt to prefetch next track */
+				track = sp_playlist_track(pl, i);
+				if(sp_track_error(track) == SP_ERROR_OK) {
+					if(sp_session_player_prefetch(g_app->session, track) == SP_ERROR_OK)
+						syslog(LOG_NOTICE, "App: Prefetching track '%s'", sp_track_name(track));
+					else
+						syslog(LOG_NOTICE, "App: Prefetching of track '%s' failed", sp_track_name(track));
 				}
 			}
 			break;

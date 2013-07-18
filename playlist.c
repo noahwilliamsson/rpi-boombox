@@ -93,17 +93,21 @@ static void pc_callback_container_loaded(sp_playlistcontainer *pc, void *userdat
 
 
 static void pl_callback_tracks_added(sp_playlist *pl, sp_track *const *tracks, int num_tracks, int position, void *userdata) {
-	syslog(LOG_DEBUG, "PLAYLIST CALLBACK[%s]: playlist %p (%s), %d tracks added",
-		__func__, pl, sp_playlist_name(pl), num_tracks);
 
 	syslog(LOG_DEBUG, "Playlist tracks added: %d tracks inserted at position %d in playlist: %s",
 		num_tracks, position, sp_playlist_name(pl));
+
+	/* resize */
+	app_randomize_playlist_order();
 }
 
 static void pl_callback_tracks_removed(sp_playlist *pl, const int *tracks, int num_tracks, void *userdata) {
 
 	syslog(LOG_DEBUG, "Playlist tracks removed: %d tracks removed in playlist: %s",
 		num_tracks, sp_playlist_name(pl));
+
+	/* resize */
+	app_randomize_playlist_order();
 }
 
 static void pl_callback_tracks_moved(sp_playlist *pl, const int *tracks, int num_tracks, int new_position, void *userdata) {

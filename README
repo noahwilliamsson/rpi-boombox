@@ -28,13 +28,12 @@ $ ./pi-boombox <username> <password>
 On subsequent runs it is sufficient to just run:
 $ ./pi-boombox
 
-By default it will start to play the first (oldest) track in your
-"starred" playlist.
+By default it will start to play tracks in your "starred" playlists.
 
 
 A lot of stuff is logged to syslog and the console (stderr) by
 default.  Feel free to reduce logging by updating the call to
-setlogmask() in main.c (around line 260).
+setlogmask() in main.c (around line 280).
 
 
 Building on Linux
