@@ -126,6 +126,10 @@ static void sess_callback_logged_in(sp_session *session, sp_error error) {
 			sp_user_display_name(user), sp_user_canonical_name(user));
 	}
 
+	/* No point in sharing usage from this program */
+	syslog(LOG_DEBUG, "Session: enabling private listening mode");
+	sp_session_set_private_session(session, 1);
+
 	/* Notify app of login to hook up rootlist callbacks */
 	app_post_event(APP_LOGGED_IN);
 }
@@ -309,9 +313,6 @@ int main(int argc, char **argv) {
 	sp_session_set_connection_type(session, SP_CONNECTION_TYPE_MOBILE_ROAMING);
 	sp_session_set_connection_rules(session, SP_CONNECTION_RULE_NETWORK|SP_CONNECTION_RULE_NETWORK_IF_ROAMING);
 	sp_session_preferred_offline_bitrate(session, SP_BITRATE_160k, 0);
-
-	/* No point in sharing usage from this program */
-	sp_session_set_private_session(session, 1);
 
 	if(argc < 2) {
 		char username[256];
