@@ -94,6 +94,7 @@ int player_callback_frame_delivery(sp_session *session, const sp_audioformat *fo
 void player_callback_start_playback(sp_session *session) {
 
 	syslog(LOG_INFO, "Player: playback started");
+	app_post_event(APP_DO_PREFETCH);
 }
 
 /* Called from libspotify's internal thread */

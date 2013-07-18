@@ -18,16 +18,17 @@ typedef enum {
 	APP_DO_METADATA	= 0x02,
 	APP_DO_NEXT_TRACK = 0x04,
 	APP_DO_PLAY	= 0x08,
-	APP_DO_STOP	= 0x10,
-	APP_DO_LOGOUT	= 0x20,
-	APP_DO_EXIT	= 0x40,
-	APP_MAX	= 0x80,
+	APP_DO_PREFETCH	= 0x10,
+	APP_DO_STOP	= 0x20,
+	APP_DO_LOGOUT	= 0x40,
+	APP_DO_EXIT	= 0x80,
+	APP_MAX	= 0x100,
 
 	/* For metadata processing; these are handled using APP_DO_METADATA */
-	APP_WAIT_INBOX	= 0x0100,
-	APP_WAIT_STARRED	= 0x0200,
-	APP_WAIT_PLAY		= 0x0800,
-	APP_WAIT_MAX		= 0x1000,
+	APP_WAIT_INBOX	= 0x01000,
+	APP_WAIT_STARRED	= 0x02000,
+	APP_WAIT_PLAY		= 0x08000,
+	APP_WAIT_MAX		= 0x010000,
 } app_event_t;
 
 void *app_create(void);

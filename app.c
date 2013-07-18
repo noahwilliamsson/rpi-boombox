@@ -367,6 +367,22 @@ int app_process_events(void) {
 					sp_track_name(app_get_track()),
 					sp_artist_name(sp_track_artist(app_get_track(), 0)));
 
+
+			break;
+		case APP_DO_PREFETCH:
+			{
+				sp_track *track;
+				sp_playlist *pl = g_app->active_playlist;
+				int num_tracks = sp_playlist_num_tracks(pl);
+				/* Attempt to prefetch next track */
+				track = sp_playlist_track(pl, (g_app->playlist_track_idx + 1) % num_tracks);
+				if(sp_track_error(track) == SP_ERROR_OK) {
+					sp_error error;
+
+					error = sp_session_player_prefetch(g_app->session, track);
+					syslog(LOG_NOTICE, "App: Prefetching of track '%s' returned error: %s", sp_track_name(track), sp_error_message(error));
+				}
+			}
 			break;
 
 		case APP_DO_STOP:
@@ -434,6 +450,8 @@ const char *app_event_name(app_event_t event) {
 		return "APP_DO_NEXT_TRACK";
 	case APP_DO_PLAY:
 		return "APP_DO_PLAY";
+	case APP_DO_PREFETCH:
+		return "APP_DO_PREFETCH";
 	case APP_DO_STOP:
 		return "APP_DO_STOP";
 	case APP_DO_METADATA:
