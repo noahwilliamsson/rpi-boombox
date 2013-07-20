@@ -17,9 +17,9 @@
 #include "playlist.h"
 #include "rpi-gpio.h"
 
+static int app_playlist_is_special_kind(sp_playlist *pl);
 static app_event_t app_next_event(void);
 static const char *app_event_name(app_event_t event);
-
 
 /* Application global state */
 typedef struct {
@@ -124,10 +124,16 @@ static void app_set_starred(sp_session *session) {
 	}
 
 	if(session) {
+		sp_error error;
+
 		g_app->starred = sp_session_starred_create(session);
 		playlist_monitor(g_app->starred, 1);
-		/* make available offline */
-		sp_playlist_set_offline_mode(session, g_app->starred, 1);
+
+		/* Make available offline */
+		error = sp_playlist_set_offline_mode(session, g_app->starred, 1);
+		if(error)
+			syslog(LOG_DEBUG, "App: Failed to set offline mode for starred playlist: %s",
+				sp_error_message(error));
 	}
 }
 
@@ -175,8 +181,14 @@ static sp_playlist *app_set_active_playlist(sp_playlist *pl) {
 		return NULL;
 
 	sp_playlist_add_ref(pl);
-	if(!app_playlist_is_special_kind(pl))
+	if(!app_playlist_is_special_kind(pl)) {
+		sp_error error;
+
 		playlist_monitor(pl, 1);
+		error = sp_playlist_set_offline_mode(g_app->session, pl, 1);
+		syslog(LOG_DEBUG, "App: Marking active playlist for offline returned: %s",
+			sp_error_message(error));
+	}
 
 	g_app->active_playlist = pl;
 	g_app->playlist_track_idx = 0;

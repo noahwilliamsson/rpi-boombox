@@ -197,10 +197,10 @@ static void sess_callback_connectionstate_updated(sp_session *session) {
 static void sess_callback_offline_status_updated(sp_session *session) {
 
 	syslog(LOG_INFO, "Session: offline status updated, %d playlists marked for offline usage, %d tracks left to sync, need to go online in %dd%02dh",
-		sp_offline_tracks_to_sync(session),
 		sp_offline_num_playlists(session),
+		sp_offline_tracks_to_sync(session),
 		sp_offline_time_left(session) / 86400,
-		sp_offline_time_left(session) % 3600);
+		(sp_offline_time_left(session) % 86400) / 3600);
 }
 
 static void sess_callback_offline_error(sp_session *session, sp_error error) {

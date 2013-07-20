@@ -36,6 +36,14 @@ default.  Feel free to reduce logging by updating the call to
 setlogmask() in main.c (around line 280).
 
 
+Offline mode
+============
+The application automatically marks the active playlist for offline usage.
+This means that tracks in the starred playlist aswell as tracks in any
+playlist submitted via the remote control interface will be synchronized
+to local storage.
+
+
 Building on Linux
 =================
 On Ubuntu or Raspbian, install necessary build tools using:
@@ -123,3 +131,17 @@ the power (around 1.5W with no connected USB devices) compared to the model B.
 
 The Pi seems to do fine with voltages in the USB +/- 5% range, i.e, 4.75-5.25V.
 Avoid using regular 1.5V AA batteries as they exceed the Pi's operating voltage.
+
+
+Raspberry Pi model A notes
+==========================
+Libspotify requires a network interface (ethX or wlanX) to be present or the
+application won't start.
+
+This can become a problem on the Raspberry Pi model A if you've had networking
+hardware present at one point and later attempt to run the application without
+it, hoping to play tracks that been made available offline.
+
+This can be worked around by adding a virtual network interface with the same
+MAC address as the previously attached network hardware:
+$ sudo ip link add eth2 address <MAC address here> type bridge
