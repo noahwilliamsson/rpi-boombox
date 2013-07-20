@@ -219,6 +219,9 @@ void app_randomize_playlist_order(void) {
 		g_app->randomized_track_idx = NULL;
 	}
 
+	if(g_app->active_playlist == NULL)
+		return;
+
 	num = sp_playlist_num_tracks(g_app->active_playlist);
 
 	arr = malloc(sizeof(int) * num);
