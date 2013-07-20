@@ -20,6 +20,7 @@ static int client_fd;
 
 static int net_accept_client(int listen_fd);
 static int net_read_data(int fd);
+static int net_gpio_read(int fd);
 
 int net_create(int port) {
 	int fd;
@@ -91,10 +92,7 @@ int net_poll(int listen_fd, int timeout) {
 
 	for(i = 0; i < nfds; i++) {
 		if(fdset[i].revents & POLLPRI) {
-			if(fdset[i].fd == app_gpio_fd()) {
-				lseek(fdset[i].fd, 0, SEEK_SET);
-				net_read_data(fdset[i].fd);
-			}
+			net_gpio_read(fdset[i].fd);
 		}
 		else if(fdset[i].revents & POLLIN) {
 			if(fdset[i].fd == listen_fd)
@@ -196,7 +194,7 @@ static int net_read_data(int fd) {
 
 		sp_link_release(link);
 	}
-	else if(!strcmp(p, "next") || !strcmp(p, "0") /* GPIO */) {
+	else if(!strcmp(p, "next")) {
 		app_post_event(APP_DO_NEXT_TRACK);
 
 		if(fd != app_gpio_fd())
@@ -218,6 +216,21 @@ static int net_read_data(int fd) {
 		return net_write_string(fd, "# ERR, unsupported command");
 
 	return 0;
+}
+
+static int net_gpio_read(int fd) {
+	char status[2] = { 0 };
+	size_t n;
+
+	lseek(fd, 0, SEEK_SET);
+	n = read(fd, status, sizeof(status));
+
+	syslog(LOG_DEBUG, "GPIO: Input %c", status[0]);		
+	if(status[0] == '0') {
+		app_post_event(APP_DO_NEXT_TRACK);
+	}
+
+	return n == 2? 0: -1;
 }
 
 void net_release(int fd) {
