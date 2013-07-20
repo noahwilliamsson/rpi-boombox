@@ -311,7 +311,7 @@ int main(int argc, char **argv) {
 
 	/* This program will be run on mobile internet connections */
 	sp_session_set_connection_type(session, SP_CONNECTION_TYPE_MOBILE_ROAMING);
-	sp_session_set_connection_rules(session, SP_CONNECTION_RULE_NETWORK|SP_CONNECTION_RULE_NETWORK_IF_ROAMING);
+	sp_session_set_connection_rules(session, SP_CONNECTION_RULE_NETWORK|SP_CONNECTION_RULE_NETWORK_IF_ROAMING|SP_CONNECTION_RULE_ALLOW_SYNC_OVER_MOBILE);
 	sp_session_preferred_offline_bitrate(session, SP_BITRATE_160k, 0);
 
 	if(argc < 2) {
