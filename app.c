@@ -377,7 +377,7 @@ int app_process_events(void) {
 
 	/* Process application events */
 	while((event = app_next_event()) != APP_EVENT_NONE) {
-		syslog(LOG_INFO, "App event: dequeued event %s", app_event_name(event));
+		syslog(LOG_DEBUG, "App event: dequeued event %s", app_event_name(event));
 
 		switch(event) {
 		case APP_LOGGED_IN:
@@ -464,13 +464,13 @@ int app_process_events(void) {
 
 void app_post_event(app_event_t event) {
 	if(g_app->events & event) {
-		syslog(LOG_INFO, "App event: re-queued event %s (0x%02x, events:0x%02x)",
+		syslog(LOG_DEBUG, "App event: re-queued event %s (0x%02x, events:0x%02x)",
 			app_event_name(event), event, g_app->events);
 		return;
 	}
 
 	g_app->events |= event;
-	syslog(LOG_INFO, "App event: queued event %s (0x%02x, events:0x%02x)",
+	syslog(LOG_DEBUG, "App event: queued event %s (0x%02x, events:0x%02x)",
 			app_event_name(event), event, g_app->events);
 }
 

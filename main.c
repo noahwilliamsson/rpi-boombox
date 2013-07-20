@@ -205,7 +205,7 @@ static void sess_callback_offline_status_updated(sp_session *session) {
 
 static void sess_callback_offline_error(sp_session *session, sp_error error) {
 
-	syslog(LOG_INFO, "Session: offline error is now: %s", sp_error_message(error));
+	syslog(LOG_DEBUG, "Session: offline error is now: %s", sp_error_message(error));
 }
 
 int mainloop(sp_session *session, int listen_fd) {
@@ -279,9 +279,9 @@ int main(int argc, char **argv) {
 	 *
 	setlogmask(LOG_UPTO(LOG_WARNING));
 	setlogmask(LOG_UPTO(LOG_NOTICE));
-	setlogmask(LOG_UPTO(LOG_INFO));
-	 */
 	setlogmask(LOG_UPTO(LOG_DEBUG));
+	 */
+	setlogmask(LOG_UPTO(LOG_INFO));
 
 	config.api_version = SPOTIFY_API_VERSION;
 	config.cache_location = LIBSPOTIFY_CACHE_DIR;
