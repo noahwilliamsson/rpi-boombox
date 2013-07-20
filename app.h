@@ -39,6 +39,7 @@ int app_gpio_fd(void);
 audio_fifo_t *app_get_audio_fifo(void);
 void app_set_session(sp_session *session);
 void app_set_link(sp_link *link);
+const char *app_get_status(void);
 
 void app_set_track(sp_track *track);
 sp_track *app_get_track(void);

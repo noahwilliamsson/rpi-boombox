@@ -84,6 +84,7 @@ The list of supported commands is as follows:
   "next" (change to next track)
   "stop" (stop playback)
   "play" (restart playback)
+  "status" (report active playlist, track and offline details)
   "logout" (logout and shutdown the program)
 
 If a Spotify playlist URI is sent the program will set that playlist as

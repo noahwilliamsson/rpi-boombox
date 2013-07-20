@@ -127,9 +127,9 @@ static int net_accept_client(int listen_fd) {
 	return 0;
 }
 
-static int net_write_string(int fd, char *buf) {
+static int net_write_string(int fd, const char *buf) {
 	size_t len, n;
-	char *p;
+	const char *p;
 
 	len = strlen(buf);
 	p = buf;
@@ -207,6 +207,9 @@ static int net_read_data(int fd) {
 	else if(!strcmp(p, "stop")) {
 		app_post_event(APP_DO_STOP);
 		return net_write_string(fd, "# OK, stopping playback\n");
+	}
+	else if(!strcmp(p, "status")) {
+		return net_write_string(fd, app_get_status());
 	}
 	else if(!strcmp(p, "logout")) {
 		app_post_event(APP_DO_LOGOUT);
