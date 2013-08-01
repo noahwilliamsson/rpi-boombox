@@ -146,7 +146,7 @@ static void pl_callback_playlist_metadata_updated(sp_playlist *pl, void *userdat
 
 static void pl_callback_track_message_changed(sp_playlist *pl, int position, const char *message, void *userdata) {
 	sp_track *track;
-	const char *title = "<not yet loaded>";
+	const char *title = "[not yet loaded]";
 
 	track = sp_playlist_track(pl, position);
 	if(sp_track_is_loaded(track))

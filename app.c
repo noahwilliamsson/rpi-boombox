@@ -127,12 +127,12 @@ static void app_update_status(void) {
 	n = 0;
 
 	if(t == NULL)
-		n = snprintf(buf, r, "Current track: <not yet selected>\n");
+		n = snprintf(buf, r, "Current track: [not yet selected]\n");
 	else if(sp_track_is_loaded(t))
 		n = snprintf(buf, r, "Current track: %s - %s\n",
 			sp_track_name(t), sp_artist_name(sp_track_artist(t, 0)));
 	else
-		n = snprintf(buf, r, "Current track: <selected but not loaded>\n");
+		n = snprintf(buf, r, "Current track: [selected but not loaded]\n");
 
 	if(n > 0) buf += n, r -= n;
 
@@ -145,11 +145,11 @@ static void app_update_status(void) {
 		}
 
 		n = snprintf(buf, r, "Current playlist: %s - %s (%d tracks)\n",
-			app_playlist_is_special_kind(pl)? "<starred or inbox>":
+			app_playlist_is_special_kind(pl)? "[starred or inbox]":
 			sp_playlist_name(pl), uri, sp_playlist_num_tracks(pl));
 	}
 	else
-		n = snprintf(buf, r, "Current playlist: <not yet selected>\n");
+		n = snprintf(buf, r, "Current playlist: [not yet selected]\n");
 
 	if(n > 0) buf += n, r -= n;
 
