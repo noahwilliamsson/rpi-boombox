@@ -22,7 +22,7 @@
 
 static void player_stats_update(int num_frames, int sample_rate);
 
-uint32_t frames_sunk, frames_expected, did_prefetch;
+uint32_t frames_sunk, frames_expected;
 
 
 /* Called from libspotify's internal thread */
@@ -142,23 +142,15 @@ void player_callback_playtoken_lost(sp_session *session) {
 	audio_fifo_flush(app_get_audio_fifo());
 }
 
-/* not implemented */
-void player_prefetch_track(sp_session *session, sp_track *track) {
-
-	sp_session_player_prefetch(session, track);
-}
-
 void player_stats_reset(void) {
 	frames_sunk = 0;
 	frames_expected = 0;
-	did_prefetch = 0;
 
 	syslog(LOG_DEBUG, "Player: statistics reset");
 }
 
 static void player_stats_update(int num_frames, int sample_rate) {
 	sp_track *track;
-	uint32_t seconds_remaining;
 
 	if(frames_expected == 0) {
 		track = app_get_track();
@@ -169,10 +161,4 @@ static void player_stats_update(int num_frames, int sample_rate) {
 	}
 
 	frames_sunk += num_frames;
-	seconds_remaining = (frames_expected - frames_sunk) / sample_rate / 1000;
-	if(seconds_remaining < 15 && !did_prefetch) {
-		did_prefetch = 1;
-
-		/* XXX - do prefetch */
-	}
 }
