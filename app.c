@@ -125,32 +125,23 @@ static void app_update_status(void) {
 
 	/* Update app status */
 	n = 0;
-	if(pl)
-		n = snprintf(buf, r, "Current playlist: %s (%d tracks)\n",
-				app_playlist_is_special_kind(pl)? "<starred or inbox>":
-				sp_playlist_name(pl), sp_playlist_num_tracks(pl));
-	else
-		n = snprintf(buf, r, "Current playlist: <not yet selected>\n");
-
-	if(n > 0) buf += n, r -= n;
-
 
 	if(t == NULL)
 		n = snprintf(buf, r, "Current track: <not yet selected>\n");
 	else if(sp_track_is_loaded(t))
 		n = snprintf(buf, r, "Current track: %s - %s\n",
-				sp_track_name(t), sp_artist_name(sp_track_artist(t, 0)));
+			sp_track_name(t), sp_artist_name(sp_track_artist(t, 0)));
 	else
 		n = snprintf(buf, r, "Current track: <selected but not loaded>\n");
 
 	if(n > 0) buf += n, r -= n;
 
-
-	if(sp_offline_sync_get_status(g_app->session, &ss))
-		n = snprintf(buf, r, "Offline status: %d tracks queued, %d tracks downloaded, %d tracks done, %d tracks failed, %d tracks remaining, syncing in progress: %s\n",
-			ss.queued_tracks, ss.copied_tracks, ss.done_tracks, ss.error_tracks, sp_offline_tracks_to_sync(g_app->session), ss.syncing? "yes": "no");
-	else 
-		n = snprintf(buf, r, "Offline status: No syncing in progress, %d tracks remaining\n", sp_offline_tracks_to_sync(g_app->session));
+	if(pl)
+		n = snprintf(buf, r, "Current playlist: %s (%d tracks)\n",
+			app_playlist_is_special_kind(pl)? "<starred or inbox>":
+			sp_playlist_name(pl), sp_playlist_num_tracks(pl));
+	else
+		n = snprintf(buf, r, "Current playlist: <not yet selected>\n");
 
 	if(n > 0) buf += n, r -= n;
 
@@ -167,12 +158,13 @@ static void app_update_status(void) {
 			sp_link_release(link);
 		}
 
-		n = snprintf(buf, r, "Offline playlist: %s - %s (%d tracks, offline status: %s)\n",
-				sp_playlist_name(pl), uri, sp_playlist_num_tracks(pl),
-				plos == SP_PLAYLIST_OFFLINE_STATUS_YES? "synced":
-				plos == SP_PLAYLIST_OFFLINE_STATUS_DOWNLOADING? "downloading":
-				plos == SP_PLAYLIST_OFFLINE_STATUS_WAITING? "pending for download":
-				"unknown");
+		n = snprintf(buf, r, "Offline playlist: %s - %s"
+			"(%d tracks, offline status: %s)\n",
+			sp_playlist_name(pl), uri, sp_playlist_num_tracks(pl),
+			plos == SP_PLAYLIST_OFFLINE_STATUS_YES? "synced":
+			plos == SP_PLAYLIST_OFFLINE_STATUS_DOWNLOADING? "downloading":
+			plos == SP_PLAYLIST_OFFLINE_STATUS_WAITING? "pending for download":
+			"unknown");
 		if(n > 0) buf += n, r -= n;
 	}
 
@@ -186,12 +178,13 @@ static void app_update_status(void) {
 			sp_link_release(link);
 		}
 
-		n = snprintf(buf, r, "Offline playlist: Inbox playlist - %s (%d tracks, offline status: %s)\n",
-				uri, sp_playlist_num_tracks(pl),
-				plos == SP_PLAYLIST_OFFLINE_STATUS_YES? "synced":
-				plos == SP_PLAYLIST_OFFLINE_STATUS_DOWNLOADING? "downloading":
-				plos == SP_PLAYLIST_OFFLINE_STATUS_WAITING? "pending for download":
-				"unknown");
+		n = snprintf(buf, r, "Offline playlist: Inbox playlist - %s"
+			"(%d tracks, offline status: %s)\n",
+			uri, sp_playlist_num_tracks(pl),
+			plos == SP_PLAYLIST_OFFLINE_STATUS_YES? "synced":
+			plos == SP_PLAYLIST_OFFLINE_STATUS_DOWNLOADING? "downloading":
+			plos == SP_PLAYLIST_OFFLINE_STATUS_WAITING? "pending for download":
+			"unknown");
 		if(n > 0) buf += n, r -= n;
 	}
 
@@ -205,14 +198,30 @@ static void app_update_status(void) {
 			sp_link_release(link);
 		}
 
-		n = snprintf(buf, r, "Offline playlist: Starred playlist - %s (%d tracks, offline status: %s)\n",
-				uri, sp_playlist_num_tracks(pl),
-				plos == SP_PLAYLIST_OFFLINE_STATUS_YES? "synced":
-				plos == SP_PLAYLIST_OFFLINE_STATUS_DOWNLOADING? "downloading":
-				plos == SP_PLAYLIST_OFFLINE_STATUS_WAITING? "pending for download":
-				"unknown");
+		n = snprintf(buf, r, "Offline playlist: Starred playlist - %s"
+			"(%d tracks, offline status: %s)\n",
+			uri, sp_playlist_num_tracks(pl),
+			plos == SP_PLAYLIST_OFFLINE_STATUS_YES? "synced":
+			plos == SP_PLAYLIST_OFFLINE_STATUS_DOWNLOADING? "downloading":
+			plos == SP_PLAYLIST_OFFLINE_STATUS_WAITING? "pending for download":
+			"unknown");
 		if(n > 0) buf += n, r -= n;
 	}
+
+	if(sp_offline_sync_get_status(g_app->session, &ss))
+		n = snprintf(buf, r, "Offline status: %d tracks queued, %d tracks downloaded,"
+			" %d tracks done, %d tracks failed, %d tracks remaining,"
+			" syncing in progress: %s\n",
+			ss.queued_tracks, ss.copied_tracks,
+			ss.done_tracks, ss.error_tracks,
+			sp_offline_tracks_to_sync(g_app->session),
+			ss.syncing? "yes": "no");
+	else 
+		n = snprintf(buf, r, "Offline status: No syncing in progress,"
+			"%d tracks remaining\n",
+			sp_offline_tracks_to_sync(g_app->session));
+
+	if(n > 0) buf += n, r -= n;
 }
 
 static void app_set_inbox(sp_session *session) {
