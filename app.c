@@ -136,10 +136,18 @@ static void app_update_status(void) {
 
 	if(n > 0) buf += n, r -= n;
 
-	if(pl)
-		n = snprintf(buf, r, "Current playlist: %s (%d tracks)\n",
+	if(pl) {
+		memset(uri, 0, sizeof(uri));
+		link = sp_link_create_from_playlist(pl);
+		if(link) {
+			sp_link_as_string(link, uri, sizeof(uri));
+			sp_link_release(link);
+		}
+
+		n = snprintf(buf, r, "Current playlist: %s - %s (%d tracks)\n",
 			app_playlist_is_special_kind(pl)? "<starred or inbox>":
-			sp_playlist_name(pl), sp_playlist_num_tracks(pl));
+			sp_playlist_name(pl), uri, sp_playlist_num_tracks(pl));
+	}
 	else
 		n = snprintf(buf, r, "Current playlist: <not yet selected>\n");
 
